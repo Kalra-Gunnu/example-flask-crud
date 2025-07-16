@@ -16,18 +16,20 @@ This guide walks through setting up Jenkins on an EC2 instance, configuring a CI
 sudo apt update  
 sudo apt upgrade -y
 ```
+
+<img src="screenshots/2.png" width="700">
 Then install JDK 17:
 
 ```bash
 sudo apt install openjdk-17-jre -y
 ```
-<img src="screenshots/2.png" width="700">
+<img src="screenshots/3.png" width="700">
 3. Verify Java Installation
 
 ```bash
 java --version  
 ```
-<img src="screenshots/3.png" width="700">
+<img src="screenshots/4.png" width="700">
 4. Install Jenkins
 Add Jenkins repo & install in a single command:
 
@@ -37,7 +39,7 @@ echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins
 sudo apt-get update && \
 sudo apt-get install -y jenkins
 ```
-<img src="screenshots/4.png" width="700">
+<img src="screenshots/5.png" width="700">
 5. Enable & Start Jenkins
 
 ```bash
@@ -49,34 +51,36 @@ Check Jenkins version:
 ```bash
 jenkins --version
 ```
-<img src="screenshots/5.png" width="700">
+<img src="screenshots/6.png" width="700">
 6. Access Jenkins
 Visit http://<EC2_PUBLIC_IP>:8080
 
+<img src="screenshots/7.png" width="700">
 To get the initial password:
 
 ```bash
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```  
-<img src="screenshots/6.png" width="700"> <img src="screenshots/7.png" width="700">
+<img src="screenshots/8.png" width="700">
 7. Setup Jenkins
 Enter the admin password
+<img src="screenshots/9.png" width="700">
 
 Click Install suggested plugins
-
+<img src="screenshots/10.png" width="700">
 Create the first admin user
-
+<img src="screenshots/11.png" width="700">
 Keep default configs & proceed
+<img src="screenshots/12.png" width="700">
 
-<img src="screenshots/8.png" width="700"> <img src="screenshots/9.png" width="700"> <img src="screenshots/10.png" width="700">
 8. Install Additional Plugins
 Go to Manage Jenkins → Available Plugins and install required plugins.
+<img src="screenshots/13.png" width="700">
 
-<img src="screenshots/11.png" width="700">
 9. Fork Flask App Repository
 Fork example-flask-crud
+<img src="screenshots/14.png" width="700">
 
-<img src="screenshots/12.png" width="700">
 10. Clone Forked Repo on Jenkins Server
 
 ```bash
@@ -84,9 +88,12 @@ cd ~
 git clone <your_forked_repo_url>  
 ls
 ```
-<img src="screenshots/13.png" width="700">
+<img src="screenshots/15.png" width="700">
+
 11. Allocate & Associate Elastic IP
-<img src="screenshots/14.png" width="700">
+<img src="screenshots/16.png" width="700">
+<img src="screenshots/17.png" width="700">
+
 12. Create Jenkinsfile
 Go into the app directory:
 
@@ -94,19 +101,21 @@ Go into the app directory:
 cd <app_name>  
 sudo nano Jenkinsfile
 ```
-<img src="screenshots/15.png" width="700">
+<img src="screenshots/18.png" width="700">
+
 13. Add Tests
 Create tests/test_app.py with a sample test.
+<img src="screenshots/19.png" width="700">
+<img src="screenshots/20.png" width="700">
 
-<img src="screenshots/16.png" width="700">
 14. Commit & Push Changes
 
 ```bash
-git add .  
+git add Jenkinsfile tests/test.py  
 git commit -m "Added Jenkinsfile & tests"  
-git push origin master
 ```
-<img src="screenshots/17.png" width="700">
+<img src="screenshots/21.png" width="700">
+
 15. Setup SSH Key for GitHub
 Generate SSH key & add it to GitHub → Settings → SSH Keys
 
@@ -114,57 +123,72 @@ Generate SSH key & add it to GitHub → Settings → SSH Keys
 ssh-keygen -t ed25519 -C "your_email@example.com"  
 cat ~/.ssh/id_ed25519.pub
 ``` 
+<img src="screenshots/22.png" width="700">
+<img src="screenshots/23.png" width="700">
+
 Then test connection:
 
 ```bash
 ssh -T git@github.com
 ```
-Update repo remote:
+Update repo remote and push:
 
 ```bash
 git remote set-url origin git@github.com:<username>/<repo_name>.git
+git push origin master
 ```
-<img src="screenshots/18.png" width="700">
+<img src="screenshots/24.png" width="700">
+
 16. Create Jenkins Pipeline
 Go to Dashboard → New Item
 
+```bash
 Name: Flask-CRUD-Pipeline
-
 Type: Pipeline
-
 Pipeline from SCM → Git
-
 Repo URL: https://github.com/<your_user>/example-flask-crud.git
-
 Branch: */master
-
 Script Path: Jenkinsfile
+```
 
-<img src="screenshots/19.png" width="700">
+<img src="screenshots/25.png" width="700">
+<img src="screenshots/26.png" width="700">
+
 17. Enable Poll SCM
 Go to Pipeline → Configure → Build Triggers
 
 Check Poll SCM
 
 Schedule:  H/5 * * * *
-<img src="screenshots/20.png" width="700">
+
+<img src="screenshots/27.png" width="700">
+
 18. Install Python venv
 
 ```bash
-sudo apt install python3-venv -y
+sudo apt-get install -y python3.12-venv 
 ```
-<img src="screenshots/21.png" width="700">
+
+<img src="screenshots/28.png" width="700">
+
 19. First Build
 Run the pipeline manually.
 
-✅ Build successful but Flask app didn’t stay running because nohup flask run & was killed after job completion.
+<img src="screenshots/29.png" width="700">
 
-<img src="screenshots/22.png" width="700">
+Proper build commands not given o updated the Jenkinsfile which triggered a pipeline run
+
+<img src="screenshots/30.png" width="700">
+
+Build successful but Flask app didn’t stay running because nohup flask run & was killed after job completion.
+
+
 20. Fix Deployment Stage
-Updated Jenkinsfile to detach process properly. SCM Poll triggered an auto build.
+Updated Jenkinsfile to detach process properly using disown. SCM Poll triggered an auto build.
+<img src="screenshots/31.png" width="700">
 
-<img src="screenshots/23.png" width="700">
 21. Use Gunicorn & Systemd
+Still the app didn't started correctly
 Installed Gunicorn and created a Systemd service:
 
 ```ini
@@ -190,7 +214,9 @@ sudo systemctl daemon-reexec
 sudo systemctl restart flaskcrud  
 sudo systemctl status flaskcrud
 ```
-<img src="screenshots/24.png" width="700">
+<img src="screenshots/32.png" width="700">
+
+
 22. Fix Sudo in Jenkins
 Edit sudoers file:
 
@@ -205,11 +231,15 @@ jenkins ALL=(ALL) NOPASSWD: /bin/systemctl restart flaskcrud, /bin/systemctl sta
 ```
 Then rerun the pipeline manually.
 
-<img src="screenshots/25.png" width="700">
+<img src="screenshots/33.png" width="700">
+
+
 23. Final Deployment
 Ran the pipeline again → ✅ Flask app successfully running at http://<Elastic_IP>:5000
 
-<img src="screenshots/26.png" width="700">
+<img src="screenshots/34.png" width="700">
+
+
 🎉 Final Outcome
 ✅ Jenkins pipeline auto-builds on every push
 ✅ Flask app deployed via Gunicorn + Systemd
