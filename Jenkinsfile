@@ -71,6 +71,8 @@ pipeline {
 
                     # Start Flask app accessible externally
                     nohup flask run --host=0.0.0.0 --port=5000 > flask_app.log 2>&1 &
+		    sleep 2
+		    disown || true
 
                     echo "✅ App deployed! Access it at http://<your-server-ip>:5000"
                 '''
