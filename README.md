@@ -372,6 +372,49 @@ Run the pipeline again. The Flask app is now successfully running at:
 
 ---
 
+## Step 23: Configuring E-mail Notification
+
+Go to Manage Jenkins -> System and scroll down to E-mail Notification section and give below details
+
+- SMTP server: smtp.gmail.com
+- Check Use SMTP Authentication
+- Username: <example@gmail.com>
+- Password: Gmail App password(which is different from the regular Gmail password)
+- Check Use SSL
+- SMTP Port: 465
+- Check Test Configuration
+- Test e-mail recipient: <example@gmail.com>
+- Click Test configuration
+
+<img src="screenshots/35.png" width="700"> 
+<img src="screenshots/36.png" width="700"> 
+<img src="screenshots/37.png" width="700"> 
+
+---
+
+## Step 24: Modify the Jenkinsfile with below content
+
+```bash
+    post {
+        success {
+            emailext(
+                to: 'gundeepgunnu@gmail.com',
+                subject: "✅ SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "The build succeeded!\nCheck details: ${env.BUILD_URL}"
+            )
+        }
+        failure {
+            emailext(
+                to: 'gundeepgunnu@gmail.com',
+                subject: "❌ FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "The build failed!\nCheck logs: ${env.BUILD_URL}"
+            )
+        }
+    }
+```
+
+---
+
 ## Final Outcome  
 
 ✅ Fully automated CI/CD pipeline with Jenkins  
