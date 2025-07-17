@@ -412,14 +412,23 @@ Go to Manage Jenkins -> System and scroll down to E-mail Notification section an
         }
     }
 ```
+Now commit these changes, a new build gets triggered
 
+<img src="screenshots/38.png" width="700">
+
+<img src="screenshots/39.png" width="700">
 ---
+
+## Step 25: Receive E-mail Notification
+
+<img src="screenshots/40.png" width="700">
 
 ## Final Outcome  
 
 ✅ Fully automated CI/CD pipeline with Jenkins  
 ✅ Flask app deployed via Gunicorn + Systemd  
-✅ SCM polling triggers auto-deployment  
+✅ SCM polling triggers auto-deployment
+✅ Receive E-mail Notification on Success/Failure of Pipeline  
 
 🎉 **Every push to the repo automatically builds and deploys the app!**  
 
