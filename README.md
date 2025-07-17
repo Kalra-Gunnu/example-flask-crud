@@ -417,6 +417,7 @@ Now commit these changes, a new build gets triggered
 <img src="screenshots/38.png" width="700">
 
 <img src="screenshots/39.png" width="700">
+
 ---
 
 ## Step 25: Receive E-mail Notification
