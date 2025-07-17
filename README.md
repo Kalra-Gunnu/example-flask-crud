@@ -425,6 +425,20 @@ Now commit these changes, a new build gets triggered
 
 <img src="screenshots/40.png" width="700">
 
+Got the mail but it was having wrong ip_address(Jenkins default). 
+
+- To fix this go to Manage Jenkins -> System
+- Scroll down to Jenkins Location and update the Jenkins URL
+
+<img src="screenshots/41.png" width="700">
+
+Now received the correct URL in the E-mail Notification
+
+<img src="screenshots/42.png" width="700">
+
+---
+
+
 ## Final Outcome  
 
 ✅ Final [Jenkinsfile](./Jenkinsfile)  
