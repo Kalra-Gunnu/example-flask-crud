@@ -215,8 +215,7 @@ Create a test file `tests/test_app.py` with sample unit tests.
 
 ```bash
 git add Jenkinsfile tests/test_app.py  
-git commit -m "Added Jenkinsfile & tests"  
-git push
+git commit -m "Added Jenkinsfile & tests" 
 ```
 
 <img src="screenshots/21.png" width="700">  
@@ -305,6 +304,8 @@ Update the Jenkinsfile to properly detach the Flask process using `disown`.
 A new SCM poll triggers an automatic build.  
 
 <img src="screenshots/31.png" width="700">  
+
+But the app still gets killed after the pipeline ends. To solve this, used Gunicorn and created a Systemd service
 
 ---
 
@@ -426,6 +427,7 @@ Now commit these changes, a new build gets triggered
 
 ## Final Outcome  
 
+✅ Final [Jenkinsfile](./Jenkinsfile)  
 ✅ Fully automated CI/CD pipeline with Jenkins  
 ✅ Flask app deployed via Gunicorn + Systemd  
 ✅ SCM polling triggers auto-deployment  
