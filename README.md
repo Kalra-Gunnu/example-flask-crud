@@ -427,10 +427,10 @@ Now commit these changes, a new build gets triggered
 
 ✅ Fully automated CI/CD pipeline with Jenkins  
 ✅ Flask app deployed via Gunicorn + Systemd  
-✅ SCM polling triggers auto-deployment
+✅ SCM polling triggers auto-deployment  
 ✅ Receive E-mail Notification on Success/Failure of Pipeline  
 
-🎉 **Every push to the repo automatically builds and deploys the app!**  
+🎉 **Every push to the repo automatically builds and deploys the app and also send an E-mail Notification!**  
 
 ---
  
