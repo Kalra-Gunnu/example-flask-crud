@@ -162,7 +162,7 @@ Go to **Manage Jenkins → Plugins → Available Plugins** and install plugins s
 
 ## Step 9: Fork the Flask CRUD App Repository  
 
-Fork the sample **example-flask-crud** repository to your GitHub account.  
+Fork the sample [**example-flask-crud**](https://github.com/gurkanakdeniz/example-flask-crud) repository to your GitHub account.  
 
 <img src="screenshots/14.png" width="700">  
 
