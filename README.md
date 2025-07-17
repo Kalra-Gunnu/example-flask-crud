@@ -441,6 +441,8 @@ Now received the correct URL in the E-mail Notification
 
 ## Final Outcome  
 
+<img src="screenshots/43.png" width="700">
+
 ✅ Final [Jenkinsfile](./Jenkinsfile)  
 ✅ Fully automated CI/CD pipeline with Jenkins  
 ✅ Flask app deployed via Gunicorn + Systemd  
